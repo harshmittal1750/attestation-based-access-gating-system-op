@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { GET_ATTESTATIONS_FOR_RECIPIENT } from "../lib/queries/GET_ATTESTATIONS_FOR_RECIPIENT";
+import { GET_ATTESTATIONS_FOR_RECIPIENT } from "../lib/queries";
 
 interface Props {
   recipientAddress: string;
