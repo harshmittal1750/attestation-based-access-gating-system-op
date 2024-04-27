@@ -6,6 +6,7 @@ import useStore from "@/zustand/useStore";
 import dynamic from "next/dynamic";
 import { Attestations } from "@/components/Attestations";
 import AttestationByUID from "@/components/AttestationByUID";
+import Navbar from "@/components/Navbar";
 const Account = dynamic(() => import("../components/Account"), { ssr: false }); // prevent hydration
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,10 +16,12 @@ export default function Home() {
 
   return (
     <main>
-      <ConnectKitButton />
-      <Account />
-      <Attestations recipientAddress={recipientAddress} />
-      <AttestationByUID />
+      <Navbar />
+      <div className="container">
+        <Account />
+        <Attestations recipientAddress={recipientAddress} />
+        <AttestationByUID />
+      </div>
     </main>
   );
 }
