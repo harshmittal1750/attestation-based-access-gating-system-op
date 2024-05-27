@@ -3,21 +3,24 @@ import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import { getContract } from "@/utils/contract-helper";
 import useStore from "@/zustand/useStore";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 const AttestationManager = () => {
   const { address, isConnected, connector } = useAccount();
   const [attestationId, setAttestationId] = useState(0);
   const [attestationStatus, setAttestationStatus] = useState("");
+  const [loading, setLoading] = useState(false); // State to manage loading status
 
   const performTransaction = async (action: "add" | "revoke", id: number) => {
-    if (!isConnected || !address || !connector) return;
+    if (!isConnected || !address || !connector || id <= 0) {
+      setAttestationStatus("Please enter a valid attestation ID.");
+      return;
+    }
     try {
-      // Create a signer
-
-      const signer = await connector.getSigner();
+      setLoading(true);
+      const signer = await connector.getProvider();
       const contract = getContract(signer);
-
-      // Perform the transaction based on the action type
       const tx = await (action === "add"
         ? contract.addAttestation(address, id)
         : contract.revokeAttestation(address, id));
@@ -33,24 +36,36 @@ const AttestationManager = () => {
       setAttestationStatus(
         `Failed to ${action === "add" ? "add" : "revoke"} attestation.`
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <input
+    <div className="p-4">
+      <Input
+        className="border p-2 rounded mr-2"
         type="number"
+        min="1"
         value={attestationId}
-        onChange={(e) => setAttestationId(parseInt(e.target.value))}
+        onChange={(e) => setAttestationId(parseInt(e.target.value, 10))}
         placeholder="Enter attestation ID"
       />
-      <button onClick={() => performTransaction("add", attestationId)}>
+      <Button
+        className=""
+        onClick={() => performTransaction("add", attestationId)}
+        disabled={loading}
+      >
         Add Attestation
-      </button>
-      <button onClick={() => performTransaction("revoke", attestationId)}>
+      </Button>
+      <Button
+        className="bg-red-500 ml-2"
+        onClick={() => performTransaction("revoke", attestationId)}
+        disabled={loading}
+      >
         Revoke Attestation
-      </button>
-      <p>{attestationStatus}</p>
+      </Button>
+      <p className="mt-2">{attestationStatus}</p>
     </div>
   );
 };

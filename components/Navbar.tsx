@@ -1,12 +1,20 @@
 import { ConnectKitButton } from "connectkit";
+import Link from "next/link";
 import React from "react";
 
 function Navbar() {
   return (
-    <div className="border-b shadow-gray-800 container justify-between flex">
-      <>ABGS</>
-      <ConnectKitButton />
-    </div>
+    <nav className=" border-b shadow-lg py-4">
+      <div className="container mx-auto flex justify-between items-center px-6">
+        <Link
+          href="/"
+          className="text-lg font-bold text-gray-800 hover:text-gray-600"
+        >
+          ABGS
+        </Link>
+        <ConnectKitButton />
+      </div>
+    </nav>
   );
 }
 

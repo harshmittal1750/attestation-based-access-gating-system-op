@@ -9,6 +9,7 @@ import AttestationByUID from "@/components/AttestationByUID";
 import Navbar from "@/components/Navbar";
 import AttestationManager from "@/components/AttestationManager";
 import GetAttestattionUsingSDK from "@/components/GetAttestattionUsingSDK";
+import Explorer from "./Explorer/Explorer";
 const Account = dynamic(() => import("../components/Account"), { ssr: false }); // prevent hydration
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,13 +19,13 @@ export default function Home() {
 
   return (
     <main>
-      <Navbar />
       <div className="container">
-        <Account />
-        <Attestations recipientAddress={recipientAddress} />
-        <AttestationByUID />
-        <AttestationManager />
-        <GetAttestattionUsingSDK />
+        {/* <Account /> */}
+        {/* <Attestations recipientAddress={recipientAddress} />
+        <AttestationByUID /> */}
+        {/* <AttestationManager /> */}
+        {/* <GetAttestattionUsingSDK /> */}
+        <Explorer />
       </div>
     </main>
   );
