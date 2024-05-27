@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 import { Web3Provider } from "@/components/Web3Provider";
 import "@/styles/globals.css";
 import client from "@/utils/appolo-client";
@@ -8,6 +9,8 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Web3Provider>
       <ApolloProvider client={client}>
+        <Navbar />
+
         <Component {...pageProps} />
       </ApolloProvider>
     </Web3Provider>
