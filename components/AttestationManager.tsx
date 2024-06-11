@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useAccount } from "wagmi";
-import { ethers } from "ethers";
+// import { useAccount } from "wagmi";
+// import { ethers } from "ethers";
 // import { getContract } from "@/utils/contract-helper";
-import useStore from "@/zustand/useStore";
+// import useStore from "@/zustand/useStore";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 const AttestationManager = () => {
-  const { address, isConnected, connector } = useAccount();
+  // const { address, isConnected, connector } = useAccount();
   const [attestationId, setAttestationId] = useState(0);
   const [attestationStatus, setAttestationStatus] = useState("");
   const [loading, setLoading] = useState(false); // State to manage loading status
