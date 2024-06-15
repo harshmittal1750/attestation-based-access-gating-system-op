@@ -1,9 +1,9 @@
 import { GetStaticProps, GetStaticPaths } from "next";
-import { ProductsData } from "./ProductsData";
 import AttestationByUID from "@/components/AttestationByUID";
 import { Attestations } from "@/components/Attestations";
 import useStore from "@/zustand/useStore";
 import AttestationManager from "@/components/AttestationManager";
+import { ProductsData } from "./Products";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
