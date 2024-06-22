@@ -5,7 +5,7 @@ export const FormNavigation = () => {
 
   return (
     <div className="flex space-x-4 p-4">
-      {[1, 2, 3].map((step) => (
+      {[1, 2].map((step) => (
         <button
           key={step}
           onClick={() => setCurrentStep(step)}
