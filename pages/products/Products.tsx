@@ -1,62 +1,89 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useContract } from "@/src/hooks/useContract";
 import Image from "next/image";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import BigNumber from "bignumber.js";
 
-export const ProductsData = [
-  {
-    slug: "product-1",
-    name: "Product 1",
-    image: "https://via.placeholder.com/150",
-    features: 10,
-  },
-  {
-    slug: "product-2",
-    name: "Product 2",
-    image: "https://via.placeholder.com/150",
-    features: 20,
-  },
-  {
-    slug: "product-3",
-    name: "Product 3",
-    image: "https://via.placeholder.com/150",
-    features: 30,
-  },
-];
+export interface Feature {
+  id: number;
+  description: string;
+  requiredAttestations: number[];
+}
 
-function Products() {
+export interface Product {
+  id: BigNumber;
+  name: string;
+  companyName: string;
+  description: string;
+  email: string;
+  featureCount: BigNumber;
+  features?: Feature[];
+}
+
+const Products = () => {
+  const { getProductCount, getProduct, getFeature } = useContract();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const fetchProducts = useCallback(async () => {
+    try {
+      const count = await getProductCount();
+      const productsArray: Product[] = [];
+      for (let i = 0; i < Number(count); i++) {
+        const product = (await getProduct(i)) as Product;
+        if (product) {
+          const featuresArray: Feature[] = [];
+          for (let j = 0; j < Number(product.featureCount); j++) {
+            const feature = await getFeature(i, j);
+            if (feature) {
+              featuresArray.push(feature);
+            }
+          }
+          product.features = featuresArray;
+          productsArray.push(product);
+        }
+      }
+      setProducts(productsArray);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  }, [getProductCount, getProduct, getFeature]);
+
+  useEffect(() => {
+    fetchProducts();
+    const interval = setInterval(fetchProducts, 60000); // Fetch products every 60 seconds
+    return () => {
+      clearInterval(interval);
+    };
+  }, [fetchProducts]);
+
   return (
     <div>
-      {/* <div className="text-3xl">Products</div> */}
-      <div className="grid grid-cols-3">
-        {ProductsData.map((product) => {
-          return (
-            <Link key={product.slug} href={`products/${product.slug}`} passHref>
+      <div className="grid grid-cols-3 gap-4">
+        {products.map((product) => (
+          <Link
+            key={product.id.toString()}
+            href={`products/${product.id}`}
+            passHref
+          >
+            <Card className="cursor-pointer">
               <CardTitle>{product.name}</CardTitle>
-
-              <CardContent className="">
+              <CardContent>
                 <Image
-                  src={product.image}
+                  src="https://via.placeholder.com/150"
                   alt={product.name}
                   width={200}
                   height={200}
                 />
-                <Badge>Features:{product.features}</Badge>
+                <Badge>Features: {product.featureCount.toString()}</Badge>
               </CardContent>
-            </Link>
-          );
-        })}
+            </Card>
+          </Link>
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default Products;
