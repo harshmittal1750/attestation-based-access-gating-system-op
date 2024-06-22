@@ -1,12 +1,13 @@
 import { useCreateFormStore } from "@/zustand/useCreateFormStore";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import React from "react";
 
 const DefineProductForm = () => {
   const { formData, updateFormData, setCurrentStep } = useCreateFormStore();
   const { name, contact, description, urlName } = formData.step1;
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setCurrentStep(2);
   };
@@ -20,6 +21,7 @@ const DefineProductForm = () => {
           onChange={(e) => updateFormData("step1", { name: e.target.value })}
           placeholder="Product Name"
           className="input border rounded-lg p-3 w-full"
+          required
         />
         <Input
           type="text"
@@ -27,6 +29,7 @@ const DefineProductForm = () => {
           onChange={(e) => updateFormData("step1", { urlName: e.target.value })}
           placeholder="URL Name (e.g., company-name)"
           className="input border rounded-lg p-3 w-full"
+          required
         />
         <textarea
           value={description}
@@ -36,6 +39,7 @@ const DefineProductForm = () => {
           placeholder="Brief Description"
           className="input border rounded-lg p-3 w-full"
           rows={3}
+          required
         />
         <Input
           type="text"
@@ -43,9 +47,12 @@ const DefineProductForm = () => {
           onChange={(e) => updateFormData("step1", { contact: e.target.value })}
           placeholder="Contact Email"
           className="input border rounded-lg p-3 w-full"
+          required
         />
       </div>
-      <Button type="submit">Continue</Button>
+      <Button type="submit" className="my-2">
+        Continue
+      </Button>
     </form>
   );
 };

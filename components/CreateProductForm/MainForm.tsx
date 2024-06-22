@@ -1,7 +1,7 @@
 import { FormNavigation } from "./FormNavigation";
 import { useCreateFormStore } from "@/zustand/useCreateFormStore";
 import DefineProductForm from "./DefineProductForm";
-import AttestationForm from "./AttestationForm";
+import AddFeaturesForm from "./AddFeaturesForm";
 
 const MainForm = () => {
   const { currentStep } = useCreateFormStore();
@@ -10,7 +10,7 @@ const MainForm = () => {
     <div className="main-form container">
       <FormNavigation />
       {currentStep === 1 && <DefineProductForm />}
-      {currentStep === 2 && <AttestationForm />}
+      {currentStep === 2 && <AddFeaturesForm />}
     </div>
   );
 };

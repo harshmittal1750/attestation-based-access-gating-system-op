@@ -3,6 +3,8 @@ import Products from "../products/Products";
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import AddProduct from "@/components/AddProduct";
+import ProductList from "@/components/ProductList";
 
 function Explorer() {
   const router = useRouter();
@@ -21,6 +23,8 @@ function Explorer() {
           <Button>+ Add</Button>
         </Link>
       </div>
+      {/* <AddProduct /> */}
+      {/* <ProductList /> */}
       <Products />
     </div>
   );
